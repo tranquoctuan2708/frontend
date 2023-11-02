@@ -15,7 +15,7 @@ const Sidebar = ({ user }) => {
             <i className="fas fa-laugh-wink"></i>
           </div>
           <div className="sidebar-brand-text mx-3">
-            Hi {user?.user.rule} <sup>2</sup>
+            Hi {user?.rule} <sup>2</sup>
           </div>
         </a>
 

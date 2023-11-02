@@ -3,15 +3,34 @@ import { useNavigate } from "react-router-dom";
 import { Formik } from "formik";
 import axios from "axios";
 
-const Login = ({ setUser }) => {
+const Login = ({ setData }) => {
   const navigate = useNavigate();
 
-  const isLogin = async (values, setUser) => {
+  const isLogin = async (values, setData) => {
     try {
-      const { data } = await axios.get(`user-information/${values.email}`);
-      if (data[0].password === values.password) {
-        setUser({
-          user: data[0],
+      // const { data: dataInfo } = await axios.get(
+      //   `user-information/${values.email}`
+      // );
+      // const { data: dataIssue } = await axios.get(`issue/${values.email}`);
+
+      const [{ data: dataInfo }, { data: dataIssue }] = await Promise.all([
+        await axios.get(`user-information/${values.email}`),
+        await axios.get(`issue/${values.email}`),
+      ]);
+
+      const taskData = dataIssue.filter((i) => i.status === "null");
+      const processData = dataIssue.filter((i) => i.status === "processing");
+      const doneData = dataIssue.filter((i) => i.status === "done");
+
+      console.log("--------------", dataIssue);
+
+      if (dataInfo[0].password === values.password) {
+        setData({
+          user: dataInfo[0],
+          taskData,
+          processData,
+          doneData,
+          totalIssue: dataIssue.length,
         });
         navigate("/dashboard");
       }
@@ -36,7 +55,7 @@ const Login = ({ setUser }) => {
                       <Formik
                         initialValues={{ email: "", password: "" }}
                         onSubmit={(values) => {
-                          isLogin(values, setUser);
+                          isLogin(values, setData);
                         }}
                       >
                         {({

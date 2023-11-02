@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-const Topbar = ({ userName, setUser }) => {
+const Topbar = ({ userName, setData }) => {
   const navigate = useNavigate();
 
   return (
@@ -60,7 +60,7 @@ const Topbar = ({ userName, setUser }) => {
             <a
               class="nav-link"
               onClick={() => {
-                setUser({
+                setData({
                   user: [],
                 });
                 navigate("/");

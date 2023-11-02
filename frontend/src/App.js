@@ -6,15 +6,24 @@ import Login from "./components/pages/login";
 
 function App() {
   const UserContext = createContext();
-  const [user, setUser] = useState();
+  const [data, setData] = useState();
   return (
     // Page Wrapper
-    <UserContext.Provider value={user}>
+    <UserContext.Provider value={data}>
       <Routes>
-        <Route index element={<Login setUser={setUser} />} />
+        <Route index element={<Login setData={setData} />} />
         <Route
           path="/dashboard"
-          element={<Dashboard user={user} setUser={setUser} />}
+          element={
+            <Dashboard
+              user={data?.user}
+              taskData={data?.taskData}
+              processData={data?.processData}
+              doneData={data?.doneData}
+              setData={setData}
+              totalIssue={data?.totalIssue}
+            />
+          }
         />
       </Routes>
     </UserContext.Provider>
